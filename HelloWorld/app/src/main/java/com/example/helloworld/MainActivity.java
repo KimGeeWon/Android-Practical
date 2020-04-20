@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextNum1, editTextNum2;
     private Button buttonAdd, buttonSub, buttonMul, buttonDiv;
 
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener(){
 
         @Override
         public void onClick(View v) {
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(this);
 
-        buttonSub = findViewById(R.id.buttonSub);
-        buttonSub.setOnClickListener((v)-> {
+        buttonSub=findViewById(R.id.buttonSub);
+        buttonSub.setOnClickListener((v) -> {
             float num1 = Float.parseFloat(editTextNum1.getText().toString());
             float num2 = Float.parseFloat(editTextNum2.getText().toString());
             textView.setText(String.valueOf(num1-num2));
@@ -52,28 +52,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        float num1 = 0, num2 = 0;
+        float num1=0, num2=0;
 
         try {
             num1 = Float.parseFloat(editTextNum1.getText().toString());
-            num1 = Float.parseFloat(editTextNum1.getText().toString());
+            num2 = Float.parseFloat(editTextNum2.getText().toString());
         }
         catch(NumberFormatException e) {
             textView.setText("Invalid Number");
             return;
         }
+
         textView.setText(String.valueOf(num1+num2));
     }
 
     public void onDivision(View v) {
-
         float num1=Float.parseFloat(editTextNum1.getText().toString());
         float num2=Float.parseFloat(editTextNum2.getText().toString());
-        if(num2==0) {
-            textView.setText("Divided by zero");
-        }
-        else {
-            textView.setText(String.valueOf(num1/num2));
-        }
+        if(num2==0) textView.setText("Divided by zero");
+        else textView.setText(String.valueOf(num1/num2));
     }
 }
