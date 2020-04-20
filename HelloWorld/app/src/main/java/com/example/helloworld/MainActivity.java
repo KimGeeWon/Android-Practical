@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onClick(View v) {
-            float num1=Float.parseFloat(editTextNum1.getText().toString());
-            float num2=Float.parseFloat(editTextNum2.getText().toString());
+            float num1 = Float.parseFloat(editTextNum1.getText().toString());
+            float num2 = Float.parseFloat(editTextNum2.getText().toString());
             textView.setText(String.valueOf(num1*num2));
         }
     };
@@ -38,21 +38,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(this);
 
-        buttonSub=findViewById(R.id.buttonSub);
-        buttonSub.setOnClickListener((v) -> {
-            float num1 = Float.parseFloat(editTextNum1.getText().toString());
-            float num2 = Float.parseFloat(editTextNum2.getText().toString());
-            textView.setText(String.valueOf(num1-num2));
-        });
+        buttonSub = findViewById(R.id.buttonSub);
+        buttonSub.setOnClickListener(this);
 
         buttonMul = findViewById(R.id.buttonMul);
-        buttonMul.setOnClickListener(listener);
+        buttonMul.setOnClickListener(this);
+
+        buttonDiv = findViewById(R.id.buttonDiv);
+        buttonDiv.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
         float num1=0, num2=0;
+        int id = v.getId();
 
         try {
             num1 = Float.parseFloat(editTextNum1.getText().toString());
@@ -63,13 +63,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        textView.setText(String.valueOf(num1+num2));
-    }
+        if(id == R.id.buttonAdd) {
+            num1 += num2;
+        }
+        else if(id == R.id.buttonSub) {
+            num1 -= num2;
+        }
+        else if(id == R.id.buttonMul) {
+            num1 *= num2;
+        }
+        else if(id == R.id.buttonDiv) {
+            if(num2 ==0) { textView.setText("Divided by zero"); return; }
+            else num1 /= num2;
+        }
 
-    public void onDivision(View v) {
-        float num1=Float.parseFloat(editTextNum1.getText().toString());
-        float num2=Float.parseFloat(editTextNum2.getText().toString());
-        if(num2==0) textView.setText("Divided by zero");
-        else textView.setText(String.valueOf(num1/num2));
+        textView.setText(String.valueOf(num1));
     }
 }
