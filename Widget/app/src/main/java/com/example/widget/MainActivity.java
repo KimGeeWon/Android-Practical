@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
+import com.example.widget.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity implements TextWatcher,
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 

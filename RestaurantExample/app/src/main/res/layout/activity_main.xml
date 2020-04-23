@@ -57,10 +57,10 @@
 
             <ImageView
                 android:id="@+id/locateView"
-                android:layout_width="180dp"
-                android:layout_height="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:scaleType="fitStart"
-                android:layout_gravity="top"
                 android:visibility="invisible"
                 android:src="@drawable/locate" />
 
@@ -80,7 +80,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="93dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -92,6 +92,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -109,6 +110,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -136,6 +138,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -172,19 +175,21 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitStart"
+                    android:layout_height="fill_parent"
+                    android:layout_centerHorizontal="true"
                     android:src="@drawable/event" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="빅 이벤트!" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="빅 이벤트!" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="치킨에 민트초코를 찍어먹자!" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="치킨에 민트초코를 찍어먹자!" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
