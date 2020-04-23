@@ -17,32 +17,22 @@ import android.widget.RadioButton;
 public class MainActivity extends AppCompatActivity implements TextWatcher,
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    private EditText name, phone;
-    private RadioButton adult, student;
-    private CheckBox terms;
-    private ProgressBar progressBar;
-    private Button apply;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         initWidgets();
     }
 
     private void initWidgets() {
-        name = findViewById(R.id.editTextName);
-        name.addTextChangedListener(this);
-        phone = findViewById(R.id.editTextPhone);
-        phone.addTextChangedListener(this);
-        adult = findViewById(R.id.radioButtonAdult);
-        adult.setOnClickListener(this);
-        student = findViewById(R.id.radioButtonStudent);
-        student.setOnClickListener(this);
-        terms = findViewById(R.id.checkBoxTerms);
-        terms.setOnCheckedChangeListener(this);
-        progressBar = findViewById(R.id.progressBar);
-        apply = findViewById(R.id.buttonApply);
+        binding.editTextName.addTextChangedListener(this);
+        binding.editTextPhone.addTextChangedListener(this);
+        binding.radioButtonAdult.setOnClickListener(this);
+        binding.radioButtonStudent.setOnClickListener(this);
+        binding.checkBoxTerms.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -74,26 +64,26 @@ public class MainActivity extends AppCompatActivity implements TextWatcher,
     private void updateProgress() {
         int progress=0;
 
-        if(name.getText().length() > 0) {
+        if(binding.editTextName.getText().length() > 0) {
             progress++;
         }
-        if(phone.getText().length() > 0) {
+        if(binding.editTextPhone.getText().length() > 0) {
             progress++;
         }
-        if(adult.isChecked() || student.isChecked()) {
+        if(binding.radioButtonAdult.isChecked() || binding.radioButtonStudent.isChecked()) {
             progress++;
         }
-        if(terms.isChecked()) {
+        if(binding.checkBoxTerms.isChecked()) {
             progress++;
         }
 
-        progressBar.setProgress(progress);
+        binding.progressBar.setProgress(progress);
 
         if(progress == 4) {
-            apply.setVisibility(View.VISIBLE);
+            binding.buttonApply.setVisibility(View.VISIBLE);
         }
         else {
-            apply.setVisibility(View.INVISIBLE);
+            binding.buttonApply.setVisibility(View.INVISIBLE);
         }
     }
 }
