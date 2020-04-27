@@ -1,7 +1,10 @@
 package com.example.widget;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.widget.databinding.ActivityMainBinding;
 
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher,
         binding.radioButtonAdult.setOnClickListener(this);
         binding.radioButtonStudent.setOnClickListener(this);
         binding.checkBoxTerms.setOnCheckedChangeListener(this);
+        binding.buttonApply.setOnClickListener(this);
     }
 
     @Override
@@ -54,9 +59,45 @@ public class MainActivity extends AppCompatActivity implements TextWatcher,
     }
 
     @Override
-    public void onClick(View view) {
-        updateProgress();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK) {
+                if(data != null) {
+                    String message = data.getStringExtra("message");
+
+                    if(message != null) {
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+            else {
+                Toast.makeText(this, "Canceled.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.buttonApply) {
+            Intent intent = new Intent(this, ConfirmActivity.class);
+            intent.putExtra("name", binding.editTextName.getText().toString());
+            intent.putExtra("phone", binding.editTextPhone.getText().toString());
+
+            String userClass = "Adult";
+            if(binding.radioButtonStudent.isChecked()) userClass = "Student";
+            intent.putExtra("class", userClass);
+
+            intent.putExtra("marketing", binding.checkBoxMarketing.isChecked());
+
+            //startActivity(intent);
+            startActivityForResult(intent, 1);
+        }
+        else {
+            updateProgress();
+        }
+    }
+
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
