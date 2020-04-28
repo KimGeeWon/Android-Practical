@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +15,8 @@ public class ConfirmActivity extends AppCompatActivity {
 
     private ActivityConfirmBinding binding;
 
-    public void onButton(View view) {
-        if(view.getId()==R.id.buttonOK) {
+    public void onButton(View v) {
+        if(v.getId()==R.id.buttonOK) {
             Intent intent = new Intent();
             intent.putExtra("message", "User confirmed");
             setResult(Activity.RESULT_OK, intent);
@@ -43,5 +44,13 @@ public class ConfirmActivity extends AppCompatActivity {
         if(!(name == null)) binding.textViewName.setText(name);
         if(!(phone == null)) binding.textViewPhone.setText(phone);
         if(!(userClass == null)) binding.textViewClass.setText(userClass);
+
+        binding.buttonSMS.setOnClickListener(v->{
+            Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+            smsIntent.setData(Uri.parse("smsto:010-4524-5468"));
+            if(smsIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(smsIntent);
+            }
+        });
     }
 }

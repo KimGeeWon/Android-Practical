@@ -87,5 +87,13 @@
         app:layout_constraintStart_toEndOf="@+id/buttonOK"
         app:layout_constraintTop_toTopOf="@+id/buttonOK" />
 
+    <Button
+        android:id="@+id/buttonSMS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOK" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
