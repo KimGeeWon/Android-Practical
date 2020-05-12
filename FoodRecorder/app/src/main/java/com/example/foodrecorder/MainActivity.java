@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.foodrecorder.data.FoodRecord;
+import com.example.foodrecorder.data.FoodRecordOpenHelper;
 import com.example.foodrecorder.databinding.ActivityMainBinding;
 
 import java.text.ParseException;
@@ -14,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -23,12 +27,19 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
+    private FoodRecordOpenHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        helper = new FoodRecordOpenHelper(this, "db", null, 1);
+        ArrayList<FoodRecord> list = helper.getRecords();
+        for(FoodRecord r: list) {
+            Log.i("Main", r.getFood() + r.getTime());
+        }
 
         preferences = getSharedPreferences("food", Context.MODE_PRIVATE);
         String lastFood = preferences.getString("food", null);
@@ -45,16 +56,11 @@ public class MainActivity extends AppCompatActivity {
             String food = binding.editText.getText().toString();
 
             if(!food.isEmpty()) {
-                LocalDateTime nowTime = LocalDateTime.now();
-                String time = nowTime.format(formatter);
-
-                binding.textViewRecord.setText(time + " - " + food);
-                binding.textViewElapsed.setText("0시간 0분 경과");
-
                 editor.putString("food", food);
+                String time = LocalDateTime.now().toString();
                 editor.putString("time", time);
-
                 editor.apply();
+                helper.addRecord(new FoodRecord(food, time.toString()));
             }
         }
     };
