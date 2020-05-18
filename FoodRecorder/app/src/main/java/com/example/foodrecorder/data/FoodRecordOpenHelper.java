@@ -48,6 +48,12 @@ public class FoodRecordOpenHelper extends SQLiteOpenHelper {
         return db.insert("foods", null, values);
     }
 
+    public int delete(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] args = {String.valueOf(id)};
+        return db.delete("foods", "id=?", args);
+    }
+
     public ArrayList<FoodRecord> getRecords() {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query("foods",

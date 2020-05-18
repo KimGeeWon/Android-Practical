@@ -3,6 +3,7 @@ package com.example.foodrecorder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +13,10 @@ import com.example.foodrecorder.data.FoodRecord;
 import com.example.foodrecorder.data.FoodRecordOpenHelper;
 import com.example.foodrecorder.databinding.ActivityMainBinding;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         String lastTime = preferences.getString("time", null);
         displayRecord(lastFood, lastTime);
         binding.buttonRecord.setOnClickListener(onSave);
+
+        binding.buttonShowAll.setOnClickListener(v->{
+            startActivity(new Intent(this, RecordActivity.class));
+        });
     }
 
     private View.OnClickListener onSave = new View.OnClickListener() {
@@ -75,12 +77,15 @@ public class MainActivity extends AppCompatActivity {
             LocalDateTime startTime = LocalDateTime.parse(time);
             LocalDateTime endTime = LocalDateTime.now();
             String timeStr = startTime.format(formatter);
+            String foodMessage = String.format("%s - %s", timeStr, food);
+            binding.textViewRecord.setText(foodMessage);
 
             long hour = ChronoUnit.HOURS.between(startTime, endTime);
             long minute = ChronoUnit.MINUTES.between(startTime, endTime);
             minute -= hour * 60;
 
-            binding.textViewRecord.setText(timeStr + " - " + food);
+            Log.i("asdf", String.valueOf(hour));
+
             binding.textViewElapsed.setText(
                     String.format(Locale.KOREA, "%d시간 %02d분 경과", hour, minute));
         }
