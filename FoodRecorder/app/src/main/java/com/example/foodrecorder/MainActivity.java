@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.foodrecorder.data.FoodRecord;
+import com.example.foodrecorder.data.FoodRecordDatabase;
 import com.example.foodrecorder.data.FoodRecordOpenHelper;
 import com.example.foodrecorder.databinding.ActivityMainBinding;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +27,20 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.KOREA);
-    private FoodRecordOpenHelper helper;
+    //private FoodRecordOpenHelper helper;
+    private FoodRecordDatabase db;
+
+    private void save(FoodRecord record) {
+        new Thread(() -> db.foodRecordDAO().addRecord(record)).start();
+    }
+
+    private void getList() {
+        new Thread(() -> {
+            List<FoodRecord> result = db.foodRecordDAO().getRecords();
+            for(FoodRecord e:result)
+                Log.i("Main", e.getTime() + e.getFood());
+        }).start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new FoodRecordOpenHelper(this, "db", null, 1);
-        ArrayList<FoodRecord> list = helper.getRecords();
-        for(FoodRecord r: list) {
-            Log.i("Main", r.getFood() + r.getTime());
-        }
+//        helper = new FoodRecordOpenHelper(this, "db", null, 1);
+        db = FoodRecordDatabase.getInstance(getApplicationContext());
+        getList();
+//        ArrayList<FoodRecord> list = helper.getRecords();
+//        for(FoodRecord r: list) {
+//            Log.i("Main", r.getFood() + r.getTime());
+//        }
 
         preferences = getSharedPreferences("food", Context.MODE_PRIVATE);
         String lastFood = preferences.getString("food", null);
@@ -62,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 String time = LocalDateTime.now().toString();
                 editor.putString("time", time);
                 editor.apply();
-                helper.addRecord(new FoodRecord(food, time.toString()));
+                //helper.addRecord(new FoodRecord(food, time.toString()));
+                save(new FoodRecord(food, time.toString()));
             }
         }
     };
