@@ -1,0 +1,30 @@
+package com.example.noteapp;
+
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.TypeConverter;
+import androidx.room.Update;
+
+import java.util.List;
+
+@Dao
+public interface MemoDAO {
+
+    @Insert
+    public long addMemo(Memo memo);
+
+    @Query("select * from Memo")
+    @TypeConverter
+    public List<Memo> getMemos();
+
+    @Query("select * from Memo where number=:number")
+    public Memo getMemo(int number);
+
+    @Delete
+    public void deleteMemo(Memo memo);
+
+    @Update
+    public int saveMemo(Memo memo);
+}
