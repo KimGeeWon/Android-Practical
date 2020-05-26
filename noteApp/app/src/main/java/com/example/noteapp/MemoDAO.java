@@ -22,9 +22,9 @@ public interface MemoDAO {
     @Query("select * from Memo where number=:number")
     public Memo getMemo(int number);
 
-    @Delete
-    public void deleteMemo(Memo memo);
-
     @Update
     public int saveMemo(Memo memo);
+
+    @Delete
+    public int deleteMemo(Memo memo);
 }

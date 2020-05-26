@@ -1,17 +1,19 @@
 package com.example.noteapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.noteapp.databinding.ActivityMainBinding;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MemoAdapter.OnListItemClickListener {
     private ActivityMainBinding binding;
     private MemoDatabase db;
     private MemoAdapter adapter;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = MemoDatabase.getInstance(getApplicationContext());
 
-        adapter = new MemoAdapter();
+        adapter = new MemoAdapter(this);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -37,10 +39,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new loadTast().execute();
+        new loadTask().execute();
     }
 
-    class loadTast extends AsyncTask<Void, Void, List<Memo>> {
+    @Override
+    public void onListItemClick(Memo memo) {
+        Intent intent = new Intent(this, EditorActivity.class);
+
+        intent.putExtra("number", memo.number);
+        intent.putExtra("title", memo.title);
+        intent.putExtra("content", memo.content);
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListItemLongClick(Memo memo) {
+        new AlertDialog.Builder(this)
+                .setMessage("삭제하시겠습니까?")
+                .setPositiveButton("예", (d, w) -> {
+                    new deleteTask().execute(memo);
+                })
+                .setNegativeButton("아니오", (d, w) -> {
+
+                }).create().show();
+    }
+
+    class loadTask extends AsyncTask<Void, Void, List<Memo>> {
 
         @Override
         protected void onPostExecute(List<Memo> memos) {
@@ -50,6 +75,21 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<Memo> doInBackground(Void... voids) {
+            return db.getMemoDao().getMemos();
+        }
+    }
+
+    class deleteTask extends AsyncTask<Memo, Void, List<Memo>> {
+
+        @Override
+        protected void onPostExecute(List<Memo> memos) {
+            super.onPostExecute(memos);
+            adapter.updateDate(memos);
+        }
+
+        @Override
+        protected List<Memo> doInBackground(Memo... memos) {
+            db.getMemoDao().deleteMemo(memos[0]);
             return db.getMemoDao().getMemos();
         }
     }
