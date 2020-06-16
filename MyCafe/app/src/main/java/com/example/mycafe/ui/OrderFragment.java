@@ -14,6 +14,8 @@ import com.example.mycafe.MainViewModel;
 import com.example.mycafe.databinding.FragmentHomeBinding;
 import com.example.mycafe.databinding.FragmentOrderBinding;
 
+import java.util.Locale;
+
 public class OrderFragment extends Fragment {
 
     private MainViewModel viewModel;
@@ -32,6 +34,12 @@ public class OrderFragment extends Fragment {
         viewModel.getUserId().observe(getViewLifecycleOwner(), userid->{
             if(userid!=null)
                 binding.textViewUserID.setText(userid);
+        });
+        viewModel.getSelected().observe(getViewLifecycleOwner(), menu->{
+            if(menu.count > 0) {
+                String str = String.format(Locale.KOREA, "%s(%,d원) - %d잔", menu.name, menu.price, menu.count);
+                binding.textViewOrder.setText(str);
+            }
         });
     }
 }
