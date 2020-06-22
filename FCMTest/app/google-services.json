@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1030092059450",
+    "firebase_url": "https://fcmtest-4eb5c.firebaseio.com",
+    "project_id": "fcmtest-4eb5c",
+    "storage_bucket": "fcmtest-4eb5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030092059450:android:994ebf91e27d344bf95603",
+        "android_client_info": {
+          "package_name": "com.andrstudy.lecture.fcmtest.kim_jw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030092059450-hgqba8jedg6jgsscom03l1r9a9tbr8cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFnKSseg8YjXQCts8PH8f-bAXci8drGXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030092059450-hgqba8jedg6jgsscom03l1r9a9tbr8cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
